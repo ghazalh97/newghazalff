@@ -1,0 +1,80 @@
+{
+  "schema": "pocket-classroom/v1",
+  "id": "sample-react-hooks",
+  "title": "Introduction to React Hooks",
+  "subject": "Computer Science",
+  "level": "Intermediate",
+  "description": "Learn the fundamentals of React Hooks including useState, useEffect, and custom hooks",
+  "notes": "React Hooks Overview\n\nHooks are functions that let you use state and other React features in functional components.\n\nKey Hooks:\n\n1. useState\n   - Adds state to functional components\n   - Returns [state, setState]\n   - Example: const [count, setCount] = useState(0)\n\n2. useEffect\n   - Performs side effects in components\n   - Runs after render by default\n   - Can specify dependencies array\n   - Example: useEffect(() => { document.title = count }, [count])\n\n3. useContext\n   - Accesses context values\n   - Avoids prop drilling\n   - Example: const theme = useContext(ThemeContext)\n\n4. useRef\n   - Creates mutable reference\n   - Persists across renders\n   - Useful for DOM access\n\n5. Custom Hooks\n   - Reusable stateful logic\n   - Must start with 'use'\n   - Can use other hooks\n\nRules of Hooks:\n- Only call at top level\n- Only call from React functions\n- Use ESLint plugin for enforcement\n\nBest Practices:\n- Keep hooks simple and focused\n- Extract complex logic to custom hooks\n- Use dependency arrays correctly\n- Avoid unnecessary re-renders",
+  "flashcards": [
+    {
+      "id": "fc-1",
+      "front": "What does the useState hook return?",
+      "back": "useState returns an array with two elements: the current state value and a function to update it. Example: const [count, setCount] = useState(0)"
+    },
+    {
+      "id": "fc-2",
+      "front": "When does useEffect run by default?",
+      "back": "useEffect runs after every render by default. You can control when it runs by providing a dependency array as the second argument."
+    },
+    {
+      "id": "fc-3",
+      "front": "What are the two main rules of hooks?",
+      "back": "1. Only call hooks at the top level (not inside loops, conditions, or nested functions)\n2. Only call hooks from React function components or custom hooks"
+    },
+    {
+      "id": "fc-4",
+      "front": "What is the purpose of useRef?",
+      "back": "useRef creates a mutable reference that persists across renders. It's commonly used to access DOM elements directly or store mutable values that don't trigger re-renders."
+    },
+    {
+      "id": "fc-5",
+      "front": "How do you create a custom hook?",
+      "back": "Create a function that starts with 'use' and can call other hooks inside it. Custom hooks let you extract and reuse stateful logic across components."
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q-1",
+      "question": "Which hook would you use to add state to a functional component?",
+      "options": ["useEffect", "useState", "useContext", "useReducer"],
+      "correctAnswer": 1
+    },
+    {
+      "id": "q-2",
+      "question": "What happens if you call a hook inside a conditional statement?",
+      "options": [
+        "It works normally",
+        "It violates the rules of hooks and can cause bugs",
+        "React automatically fixes it",
+        "It only works in development mode"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": "q-3",
+      "question": "What is the purpose of the dependency array in useEffect?",
+      "options": [
+        "It has no purpose",
+        "It controls when the effect runs",
+        "It prevents all re-renders",
+        "It's only for TypeScript"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": "q-4",
+      "question": "Which hook helps avoid prop drilling?",
+      "options": ["useState", "useEffect", "useContext", "useRef"],
+      "correctAnswer": 2
+    },
+    {
+      "id": "q-5",
+      "question": "What must custom hooks start with?",
+      "options": ["The word 'hook'", "The word 'use'", "An underscore", "A capital letter"],
+      "correctAnswer": 1
+    }
+  ],
+  "createdAt": 1704067200000,
+  "updatedAt": 1704067200000
+}

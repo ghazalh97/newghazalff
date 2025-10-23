@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Classroom - Offline Learning</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-purple: #7c3aed;
+            --dark-purple: #5b21b6;
+            --light-purple: #a78bfa;
+            --accent-purple: #341b6d;
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a2e;
+            --bg-hover: #252540;
+            --text-primary: #f5f5f7;
+            --text-secondary: #f9f9f9;
+            --text-muted: #fefeff;
+            --border-color: #2d2d44;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 50%, #0f0f23 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced navbar with better professional styling */
+        .navbar {
+            background: rgba(26, 26, 46, 0.98) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 30px rgba(124, 58, 237, 0.15);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        /* Improved button styling for professional look */
+        .btn-purple {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.65rem 1.75rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+            font-size: 0.95rem;
+        }
+
+        .btn-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.6);
+            color: white;
+        }
+
+        .btn-outline-purple {
+            border: 2px solid var(--primary-purple);
+            color: var(--primary-purple);
+            background: transparent;
+            font-weight: 600;
+            padding: 0.65rem 1.75rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-outline-purple:hover {
+            background: var(--primary-purple);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Enhanced card styling for academic feel */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.25);
+            border-color: var(--primary-purple);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            border: none;
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Improved form controls for better readability */
+        .form-control, .form-select {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--bg-card);
+            border-color: var(--primary-purple);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.25);
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+        }
+
+        /* Enhanced flashcard design */
+        .flashcard {
+            perspective: 1000px;
+            cursor: pointer;
+            height: 320px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .flashcard-front h4, .flashcard-back h4 {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+        }
+
+        /* Improved quiz option styling */
+        .quiz-option {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-purple);
+            background: var(--bg-hover);
+            transform: translateX(8px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-purple);
+            background: rgba(239, 239, 239, 0.968);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background: rgb(255, 255, 255);
+        }
+
+        .progress {
+            background: var(--bg-card);
+            border-radius: 10px;
+            height: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Enhanced tab navigation */
+        .nav-tabs {
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+            padding: 1rem 1.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-purple);
+            border: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-purple);
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid var(--primary-purple);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--primary-purple);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        /* Enhanced stats card design */
+        .stats-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(91, 33, 182, 0.15));
+            border: 2px solid var(--primary-purple);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);
+        }
+
+        .stats-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Enhanced motivational quote styling */
+        .motivational-quote {
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            padding: 2.5rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .motivational-quote p {
+            font-size: 1.35rem;
+            font-style: italic;
+            margin: 0;
+            line-height: 1.8;
+            font-family: 'Merriweather', serif;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .motivational-quote .author {
+            font-size: 1rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+            font-style: normal;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* NEW: Improved notes content readability */
+        #learnNotesContent {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            letter-spacing: 0.2px;
+            padding: 1.5rem;
+        }
+
+        #learnNotesContent::first-line {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* NEW: Section headers in notes */
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-purple);
+        }
+
+        /* NEW: Mini motivational badges */
+        .mini-motivation {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(91, 33, 182, 0.2));
+            border-left: 4px solid var(--primary-purple);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            
+            .flashcard {
+                height: 280px;
+            }
+
+            .motivational-quote {
+                padding: 2rem 1.5rem;
+            }
+
+            .motivational-quote p {
+                font-size: 1.1rem;
+            }
+
+            #learnNotesContent {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showView('library')">
+                <i class="bi bi-mortarboard-fill me-2"></i>Pocket Classroom
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showView('library')">
+                            <i class="bi bi-house-fill me-1"></i>Library
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-purple ms-2" onclick="createNewCapsule()">
+                            <i class="bi bi-plus-circle me-1"></i>New Capsule
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container py-4">
+        <!-- Library View -->
+        <div id="libraryView" class="view">
+            <!-- Enhanced motivational quote with author -->
+            <div class="motivational-quote">
+                <p>"Education is the most powerful weapon which you can use to change the world."</p>
+                <div class="author">— Nelson Mandela</div>
+            </div>
+
+            <!-- Added mini motivation section -->
+            <div class="mini-motivation mb-4">
+                <i class="bi bi-lightbulb-fill me-2" style="color: var(--primary-purple);"></i>
+                <strong>Pro Tip:</strong> Consistent daily learning, even for 15 minutes, builds lasting knowledge and skills.
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-collection-fill me-2"></i>My Learning Capsules</h2>
+                <div>
+                    <button class="btn btn-outline-purple me-2" onclick="document.getElementById('importFile').click()">
+                        <i class="bi bi-upload me-1"></i>Import
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importCapsule(event)">
+                </div>
+            </div>
+
+            <div id="capsuleGrid" class="row g-4">
+                <!-- Capsules will be rendered here -->
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="bi bi-inbox"></i>
+                <h3>No Capsules Yet</h3>
+                <p class="mb-3">Start your learning journey by creating your first capsule!</p>
+                <button class="btn btn-purple" onclick="createNewCapsule()">
+                    <i class="bi bi-plus-circle me-1"></i>Create Your First Capsule
+                </button>
+            </div>
+        </div>
+
+        <!-- Author View -->
+        <div id="authorView" class="view" style="display: none;">
+            <!-- Added motivational quote to author mode -->
+            <div class="motivational-quote mb-4">
+                <p>"The beautiful thing about learning is that no one can take it away from you."</p>
+                <div class="author">— B.B. King</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-pencil-square me-2"></i>Author Mode</h2>
+                <div>
+                    <button class="btn btn-outline-purple me-2" onclick="showView('library')">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button class="btn btn-purple" onclick="saveCapsule()">
+                        <i class="bi bi-save me-1"></i>Save Capsule
+                    </button>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Capsule Title *</label>
+                            <input type="text" class="form-control" id="capsuleTitle" placeholder="e.g., React Hooks Fundamentals">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Subject *</label>
+                            <input type="text" class="form-control" id="capsuleSubject" placeholder="e.g., Programming">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Level *</label>
+                            <select class="form-select" id="capsuleLevel">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#notesTab">
+                        <i class="bi bi-journal-text me-1"></i>Notes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#flashcardsTab">
+                        <i class="bi bi-card-list me-1"></i>Flashcards
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#quizTab">
+                        <i class="bi bi-question-circle me-1"></i>Quiz
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Notes Tab -->
+                <div class="tab-pane fade show active" id="notesTab">
+                    <div class="card">
+                        <div class="card-body">
+                            <label class="form-label">Notes Content</label>
+                            <textarea class="form-control" id="notesContent" rows="15" placeholder="Write your notes here... Use clear headings and bullet points for better organization." style="font-size: 1rem; line-height: 1.8;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcards Tab -->
+                <div class="tab-pane fade" id="flashcardsTab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Flashcards</h5>
+                                <button class="btn btn-purple btn-sm" onclick="addFlashcard()">
+                                    <i class="bi bi-plus-circle me-1"></i>Add Flashcard
+                                </button>
+                            </div>
+                            <div id="flashcardsList">
+                                <!-- Flashcards will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Tab -->
+                <div class="tab-pane fade" id="quizTab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Quiz Questions</h5>
+                                <button class="btn btn-purple btn-sm" onclick="addQuizQuestion()">
+                                    <i class="bi bi-plus-circle me-1"></i>Add Question
+                                </button>
+                            </div>
+                            <div id="quizQuestionsList">
+                                <!-- Quiz questions will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learn View -->
+        <div id="learnView" class="view" style="display: none;">
+            <!-- Added motivational quote to learn mode -->
+            <div class="motivational-quote mb-4">
+                <p>"An investment in knowledge pays the best interest."</p>
+                <div class="author">— Benjamin Franklin</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 id="learnTitle"><i class="bi bi-book me-2"></i>Learn Mode</h2>
+                <div>
+                    <button class="btn btn-outline-purple me-2" onclick="exportCurrentCapsule()">
+                        <i class="bi bi-download me-1"></i>Export
+                    </button>
+                    <button class="btn btn-outline-purple" onclick="showView('library')">
+                        <i class="bi bi-arrow-left me-1"></i>Back to Library
+                    </button>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#learnNotesTab">
+                        <i class="bi bi-journal-text me-1"></i>Notes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#learnFlashcardsTab">
+                        <i class="bi bi-card-list me-1"></i>Flashcards
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#learnQuizTab">
+                        <i class="bi bi-question-circle me-1"></i>Quiz
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Learn Notes Tab -->
+                <div class="tab-pane fade show active" id="learnNotesTab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="notesSearch" placeholder="🔍 Search notes...">
+                            </div>
+                            <!-- Enhanced notes content div with better styling -->
+                            <div id="learnNotesContent">
+                                <!-- Notes content will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learn Flashcards Tab -->
+                <div class="tab-pane fade" id="learnFlashcardsTab">
+                    <!-- Added mini motivation for flashcards -->
+                    <div class="mini-motivation mb-4">
+                        <i class="bi bi-star-fill me-2" style="color: var(--primary-purple);"></i>
+                        <strong>Study Tip:</strong> Review flashcards multiple times. Spaced repetition is the key to long-term retention!
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <h3 id="flashcardProgress">0/0</h3>
+                                <p class="text-muted mb-0">Cards Mastered</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <label class="form-label">Progress</label>
+                                    <div class="progress">
+                                        <div id="flashcardProgressBar" class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="flashcardContainer">
+                        <!-- Flashcard will be rendered here -->
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-purple" onclick="previousFlashcard()">
+                            <i class="bi bi-arrow-left me-1"></i>Previous
+                        </button>
+                        <div>
+                            <button class="btn btn-outline-purple me-2" onclick="toggleFlashcardMastery()">
+                                <i class="bi bi-star me-1"></i>Toggle Mastery
+                            </button>
+                            <button class="btn btn-purple" onclick="nextFlashcard()">
+                                Next<i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learn Quiz Tab -->
+                <div class="tab-pane fade" id="learnQuizTab">
+                    <div id="quizStart" class="text-center py-5">
+                        <i class="bi bi-trophy" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                        <h3 class="mt-3">Ready to Test Your Knowledge?</h3>
+                        <p class="text-muted mb-4">Challenge yourself and see how much you've learned!</p>
+                        <!-- Added mini motivation before quiz -->
+                        <div class="mini-motivation mb-4 mx-auto" style="max-width: 600px;">
+                            <i class="bi bi-trophy-fill me-2" style="color: var(--primary-purple);"></i>
+                            <strong>Remember:</strong> Every mistake is a learning opportunity. Focus on understanding, not just scores!
+                        </div>
+                        <button class="btn btn-purple btn-lg" onclick="startQuiz()">
+                            <i class="bi bi-play-fill me-2"></i>Start Quiz
+                        </button>
+                    </div>
+
+                    <div id="quizActive" style="display: none;">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5>Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></h5>
+                                    <span class="badge badge-purple">Score: <span id="quizScore">0</span></span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div id="quizProgressBar" class="progress-bar" style="width: 0%"></div>
+                                </div>
+                                <h4 id="quizQuestion" class="mb-4"></h4>
+                                <div id="quizOptions">
+                                    <!-- Options will be rendered here -->
+                                </div>
+                                <div class="mt-4">
+                                    <button class="btn btn-purple" id="submitAnswerBtn" onclick="submitAnswer()">
+                                        Submit Answer
+                                    </button>
+                                    <button class="btn btn-purple" id="nextQuestionBtn" style="display: none;" onclick="nextQuestion()">
+                                        Next Question
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="quizResults" style="display: none;">
+                        <div class="card">
+                            <div class="card-body text-center py-5">
+                                <i class="bi bi-trophy" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                                <h3 class="mt-3">Quiz Complete!</h3>
+                                <h2 class="my-4" style="color: var(--primary-purple);">
+                                    Score: <span id="finalScore">0</span>%
+                                </h2>
+                                <p class="text-muted mb-4" id="resultMessage"></p>
+                                <button class="btn btn-purple me-2" onclick="startQuiz()">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Retake Quiz
+                                </button>
+                                <button class="btn btn-outline-purple" onclick="showView('library')">
+                                    <i class="bi bi-arrow-left me-1"></i>Back to Library
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global State
+        let capsules = [];
+        let currentCapsule = null;
+        let currentCapsuleId = null;
+        let currentFlashcardIndex = 0;
+        let currentQuestionIndex = 0;
+        let quizAnswers = [];
+        let selectedAnswer = null;
+
+        const sampleCapsules = [
+            {
+                title: "Java Fundamentals - Variables & Data Types",
+                subject: "Programming",
+                level: "Beginner",
+                notes: `JAVA FUNDAMENTALS: VARIABLES & DATA TYPES
+
+What is Java?
+Java is a high-level, object-oriented programming language developed by Sun Microsystems (now owned by Oracle). It follows the principle of "Write Once, Run Anywhere" (WORA), meaning compiled Java code can run on any platform that supports Java.
+
+Variables in Java
+A variable is a container that holds data that can be changed during program execution. Think of it as a labeled box where you can store information.
+
+Syntax: dataType variableName = value;
+
+Example:
+int age = 25;
+String name = "John";
+double salary = 50000.50;
+
+Primitive Data Types:
+1. byte - 8-bit integer (-128 to 127)
+2. short - 16-bit integer (-32,768 to 32,767)
+3. int - 32-bit integer (-2^31 to 2^31-1)
+4. long - 64-bit integer (-2^63 to 2^63-1)
+5. float - 32-bit floating point
+6. double - 64-bit floating point
+7. boolean - true or false
+8. char - 16-bit Unicode character
+
+Reference Data Types:
+- String - sequence of characters
+- Arrays - collection of similar data types
+- Classes - user-defined types
+- Interfaces - abstract types
+
+Variable Naming Rules:
+✓ Must start with a letter, $ or _
+✓ Can contain letters, digits, $ and _
+✓ Case-sensitive (age and Age are different)
+✓ Cannot use Java keywords (int, class, etc.)
+✓ Use camelCase convention (firstName, totalAmount)
+
+Type Casting:
+- Widening (automatic): byte → short → int → long → float → double
+- Narrowing (manual): double → float → long → int → short → byte
+
+Example:
+int num = 100;
+double decimal = num; // Widening (automatic)
+int back = (int) decimal; // Narrowing (manual)`,
+                flashcards: [
+                    {
+                        front: "What is a Variable in Java?",
+                        back: "A variable is a container that holds data that can be changed during program execution. It has a name, a data type, and a value. Example: int age = 25;"
+                    },
+                    {
+                        front: "What are the 8 Primitive Data Types in Java?",
+                        back: "byte, short, int, long, float, double, boolean, and char. These are the basic building blocks for data manipulation in Java."
+                    },
+                    {
+                        front: "What is the difference between int and double?",
+                        back: "int stores whole numbers (32-bit integer) like 5, 100, -42. double stores decimal numbers (64-bit floating point) like 3.14, -0.5, 99.99."
+                    },
+                    {
+                        front: "What is Type Casting in Java?",
+                        back: "Type casting is converting one data type to another. Widening (automatic) goes from smaller to larger types. Narrowing (manual) requires explicit casting: int x = (int) 9.8;"
+                    },
+                    {
+                        front: "What are Variable Naming Rules in Java?",
+                        back: "Must start with letter, $ or _. Can contain letters, digits, $ and _. Case-sensitive. Cannot use keywords. Use camelCase convention (firstName, totalAmount)."
+                    },
+                    {
+                        front: "What is the difference between Primitive and Reference types?",
+                        back: "Primitive types store actual values (int, boolean, char). Reference types store memory addresses pointing to objects (String, Arrays, Classes)."
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "Which of the following is NOT a primitive data type in Java?",
+                        options: ["int", "String", "boolean", "char"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "What is the correct way to declare an integer variable in Java?",
+                        options: ["integer age = 25;", "int age = 25;", "var age = 25;", "number age = 25;"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "Which data type would you use to store the value 3.14159?",
+                        options: ["int", "boolean", "double", "char"],
+                        correctAnswer: 2
+                    },
+                    {
+                        question: "What will be the output of: int x = 10; double y = x;",
+                        options: ["Compilation error", "y = 10.0 (automatic widening)", "y = 10 (stays integer)", "Runtime error"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "Which variable name is INVALID in Java?",
+                        options: ["_count", "$price", "2ndValue", "firstName"],
+                        correctAnswer: 2
+                    },
+                    {
+                        question: "What is the size of the 'int' data type in Java?",
+                        options: ["8 bits", "16 bits", "32 bits", "64 bits"],
+                        correctAnswer: 2
+                    }
+                ],
+                flashcardProgress: [false, false, false, false, false, false],
+                quizScores: [],
+                lastUpdated: new Date().toISOString()
+            },
+            {
+                title: "Java Control Structures - Loops & Conditions",
+                subject: "Programming",
+                level: "Beginner",
+                notes: `JAVA CONTROL STRUCTURES
+
+Control structures determine the flow of program execution. They allow you to make decisions and repeat actions.
+
+IF-ELSE STATEMENTS
+Used to make decisions based on conditions.
+
+Syntax:
+if (condition) {
+    // code if true
+} else if (anotherCondition) {
+    // code if second condition true
+} else {
+    // code if all conditions false
+}
+
+Example:
+int score = 85;
+if (score >= 90) {
+    System.out.println("Grade: A");
+} else if (score >= 80) {
+    System.out.println("Grade: B");
+} else {
+    System.out.println("Grade: C");
+}
+
+SWITCH STATEMENT
+Alternative to multiple if-else statements.
+
+Syntax:
+switch (variable) {
+    case value1:
+        // code
+        break;
+    case value2:
+        // code
+        break;
+    default:
+        // code
+}
+
+FOR LOOP
+Repeats code a specific number of times.
+
+Syntax:
+for (initialization; condition; increment) {
+    // code to repeat
+}
+
+Example:
+for (int i = 0; i < 5; i++) {
+    System.out.println("Count: " + i);
+}
+
+WHILE LOOP
+Repeats code while condition is true.
+
+Syntax:
+while (condition) {
+    // code to repeat
+}
+
+Example:
+int count = 0;
+while (count < 5) {
+    System.out.println(count);
+    count++;
+}
+
+DO-WHILE LOOP
+Executes code at least once, then checks condition.
+
+Syntax:
+do {
+    // code to repeat
+} while (condition);
+
+BREAK and CONTINUE
+- break: exits the loop immediately
+- continue: skips current iteration, continues with next
+
+Loop Control Best Practices:
+✓ Always ensure loop has exit condition
+✓ Avoid infinite loops
+✓ Use appropriate loop for the task
+✓ Keep loop body simple and readable`,
+                flashcards: [
+                    {
+                        front: "What is an IF statement in Java?",
+                        back: "An IF statement executes code based on a boolean condition. If the condition is true, the code block runs. Otherwise, it's skipped or an else block executes."
+                    },
+                    {
+                        front: "What is the difference between WHILE and DO-WHILE loops?",
+                        back: "WHILE checks condition before executing (may never run). DO-WHILE executes code first, then checks condition (runs at least once)."
+                    },
+                    {
+                        front: "What does a FOR loop consist of?",
+                        back: "A FOR loop has three parts: initialization (int i=0), condition (i<10), and increment (i++). It's ideal when you know how many iterations you need."
+                    },
+                    {
+                        front: "What is the purpose of BREAK statement?",
+                        back: "BREAK immediately exits the current loop or switch statement, skipping any remaining iterations and continuing with code after the loop."
+                    },
+                    {
+                        front: "What does CONTINUE do in a loop?",
+                        back: "CONTINUE skips the rest of the current iteration and jumps to the next iteration of the loop. Unlike break, it doesn't exit the loop entirely."
+                    },
+                    {
+                        front: "When should you use SWITCH instead of IF-ELSE?",
+                        back: "Use SWITCH when comparing one variable against multiple specific values. It's cleaner and more readable than multiple if-else statements for exact matches."
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "What will this code print? int x = 5; if (x > 10) { System.out.println('A'); } else { System.out.println('B'); }",
+                        options: ["A", "B", "Nothing", "Compilation error"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "Which loop guarantees at least one execution?",
+                        options: ["for loop", "while loop", "do-while loop", "None of the above"],
+                        correctAnswer: 2
+                    },
+                    {
+                        question: "What is the output? for(int i=0; i<3; i++) { System.out.print(i); }",
+                        options: ["123", "012", "0123", "321"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "What does 'break' do in a loop?",
+                        options: ["Skips current iteration", "Exits the loop completely", "Restarts the loop", "Pauses the loop"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "Which is the correct syntax for a while loop?",
+                        options: ["while (condition) { }", "while { } (condition)", "loop while (condition) { }", "while condition { }"],
+                        correctAnswer: 0
+                    },
+                    {
+                        question: "What happens if you forget 'break' in a switch case?",
+                        options: ["Compilation error", "Runtime error", "Fall-through to next case", "Loop infinitely"],
+                        correctAnswer: 2
+                    }
+                ],
+                flashcardProgress: [false, false, false, false, false, false],
+                quizScores: [],
+                lastUpdated: new Date().toISOString()
+            },
+            {
+                title: "Java Object-Oriented Programming Basics",
+                subject: "Programming",
+                level: "Intermediate",
+                notes: `OBJECT-ORIENTED PROGRAMMING IN JAVA
+
+Java is fundamentally an object-oriented programming (OOP) language. OOP organizes code into objects that contain both data and methods.
+
+FOUR PILLARS OF OOP:
+
+1. ENCAPSULATION
+Bundling data and methods that work on that data within a class. Use access modifiers to hide internal details.
+
+Access Modifiers:
+- private: accessible only within the class
+- public: accessible from anywhere
+- protected: accessible within package and subclasses
+- default: accessible within package
+
+Example:
+public class Student {
+    private String name;
+    private int age;
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+
+2. INHERITANCE
+Creating new classes based on existing classes. Child class inherits properties and methods from parent class.
+
+Syntax:
+class Child extends Parent {
+    // additional features
+}
+
+Example:
+class Animal {
+    void eat() { System.out.println("Eating..."); }
+}
+
+class Dog extends Animal {
+    void bark() { System.out.println("Barking..."); }
+}
+
+3. POLYMORPHISM
+"Many forms" - same method name behaves differently in different contexts.
+
+Types:
+- Method Overloading: same name, different parameters
+- Method Overriding: child class redefines parent method
+
+Example:
+class Calculator {
+    int add(int a, int b) { return a + b; }
+    double add(double a, double b) { return a + b; }
+}
+
+4. ABSTRACTION
+Hiding complex implementation details, showing only essential features.
+
+Abstract Class:
+abstract class Shape {
+    abstract void draw();
+}
+
+Interface:
+interface Drawable {
+    void draw();
+}
+
+CLASSES AND OBJECTS
+
+Class: Blueprint for creating objects
+Object: Instance of a class
+
+Example:
+class Car {
+    String brand;
+    int year;
+    
+    void start() {
+        System.out.println("Car starting...");
+    }
+}
+
+Car myCar = new Car();
+myCar.brand = "Toyota";
+myCar.start();
+
+CONSTRUCTORS
+Special method called when object is created.
+
+Example:
+class Person {
+    String name;
+    
+    Person(String name) {
+        this.name = name;
+    }
+}
+
+Person p = new Person("John");`,
+                flashcards: [
+                    {
+                        front: "What is a Class in Java?",
+                        back: "A class is a blueprint or template for creating objects. It defines properties (variables) and behaviors (methods) that objects of that class will have."
+                    },
+                    {
+                        front: "What is an Object in Java?",
+                        back: "An object is an instance of a class. It's a concrete entity created from the class blueprint, with its own set of values for the class properties."
+                    },
+                    {
+                        front: "What is Encapsulation?",
+                        back: "Encapsulation is bundling data and methods together in a class and restricting direct access using private variables with public getter/setter methods."
+                    },
+                    {
+                        front: "What is Inheritance in Java?",
+                        back: "Inheritance allows a class to inherit properties and methods from another class using 'extends' keyword. Child class gets features of parent class and can add its own."
+                    },
+                    {
+                        front: "What is Polymorphism?",
+                        back: "Polymorphism means 'many forms'. It allows methods to behave differently based on context. Includes method overloading (same name, different parameters) and overriding (redefining parent method)."
+                    },
+                    {
+                        front: "What is a Constructor?",
+                        back: "A constructor is a special method with the same name as the class, called automatically when an object is created. It initializes object properties. Example: Person(String name) { this.name = name; }"
+                    }
+                ],
+                quiz: [
+                    {
+                        question: "Which keyword is used to inherit a class in Java?",
+                        options: ["inherits", "extends", "implements", "super"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "What is the purpose of the 'private' access modifier?",
+                        options: ["Make variable accessible everywhere", "Restrict access to within the class only", "Allow access in subclasses", "Make variable constant"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "Which is NOT a pillar of Object-Oriented Programming?",
+                        options: ["Encapsulation", "Inheritance", "Compilation", "Polymorphism"],
+                        correctAnswer: 2
+                    },
+                    {
+                        question: "What is method overloading?",
+                        options: ["Using too many methods", "Same method name with different parameters", "Overriding parent method", "Creating multiple classes"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "What keyword is used to create an object in Java?",
+                        options: ["create", "new", "object", "make"],
+                        correctAnswer: 1
+                    },
+                    {
+                        question: "What is the correct way to define a constructor?",
+                        options: ["void ClassName() { }", "ClassName() { }", "constructor ClassName() { }", "new ClassName() { }"],
+                        correctAnswer: 1
+                    }
+                ],
+                flashcardProgress: [false, false, false, false, false, false],
+                quizScores: [],
+                lastUpdated: new Date().toISOString()
+            }
+        ];
+
+        // Initialize App
+        function init() {
+            loadCapsules();
+            if (capsules.length === 0) {
+                capsules = [...sampleCapsules];
+                saveCapsulesToStorage();
+            }
+            renderLibrary();
+        }
+
+        // LocalStorage Functions
+        function loadCapsules() {
+            const stored = localStorage.getItem('pocketClassroomCapsules');
+            capsules = stored ? JSON.parse(stored) : [];
+        }
+
+        function saveCapsulesToStorage() {
+            localStorage.setItem('pocketClassroomCapsules', JSON.stringify(capsules));
+        }
+
+        // View Management
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(view => view.style.display = 'none');
+            
+            if (viewName === 'library') {
+                document.getElementById('libraryView').style.display = 'block';
+                renderLibrary();
+            } else if (viewName === 'author') {
+                document.getElementById('authorView').style.display = 'block';
+            } else if (viewName === 'learn') {
+                document.getElementById('learnView').style.display = 'block';
+            }
+        }
+
+        // Library Functions
+        function renderLibrary() {
+            const grid = document.getElementById('capsuleGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (capsules.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            grid.innerHTML = capsules.map((capsule, index) => {
+                const masteredCount = capsule.flashcardProgress ? 
+                    capsule.flashcardProgress.filter(m => m).length : 0;
+                const totalFlashcards = capsule.flashcards.length;
+                const lastScore = capsule.quizScores && capsule.quizScores.length > 0 ? 
+                    capsule.quizScores[capsule.quizScores.length - 1] : null;
+
+                return `
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0">${capsule.title}</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <span class="badge badge-purple me-2">${capsule.subject}</span>
+                                    <span class="badge bg-secondary">${capsule.level}</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="bi bi-clock me-1"></i>
+                                    Updated: ${new Date(capsule.lastUpdated).toLocaleDateString()}
+                                </p>
+                                <div class="mb-2">
+                                    <small class="text-muted">Flashcards: ${masteredCount}/${totalFlashcards} mastered</small>
+                                    <div class="progress mt-1" style="height: 6px;">
+                                        <div class="progress-bar" style="width: ${totalFlashcards > 0 ? (masteredCount/totalFlashcards*100) : 0}%"></div>
+                                    </div>
+                                </div>
+                                ${lastScore !== null ? `
+                                    <p class="text-muted small mb-0">
+                                        <i class="bi bi-trophy me-1"></i>
+                                        Last Quiz: ${lastScore}%
+                                    </p>
+                                ` : ''}
+                            </div>
+                            <div class="card-footer bg-transparent border-top border-secondary">
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-purple btn-sm flex-fill" onclick="learnCapsule(${index})">
+                                        <i class="bi bi-book me-1"></i>Learn
+                                    </button>
+                                    <button class="btn btn-outline-purple btn-sm" onclick="editCapsule(${index})">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-outline-purple btn-sm" onclick="exportCapsule(${index})">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteCapsule(${index})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Author Mode Functions
+        function createNewCapsule() {
+            currentCapsuleId = null;
+            currentCapsule = {
+                title: '',
+                subject: '',
+                level: 'Beginner',
+                notes: '',
+                flashcards: [],
+                quiz: [],
+                flashcardProgress: [],
+                quizScores: [],
+                lastUpdated: new Date().toISOString()
+            };
+            
+            document.getElementById('capsuleTitle').value = '';
+            document.getElementById('capsuleSubject').value = '';
+            document.getElementById('capsuleLevel').value = 'Beginner';
+            document.getElementById('notesContent').value = '';
+            document.getElementById('flashcardsList').innerHTML = '';
+            document.getElementById('quizQuestionsList').innerHTML = '';
+            
+            showView('author');
+        }
+
+        function editCapsule(index) {
+            currentCapsuleId = index;
+            currentCapsule = JSON.parse(JSON.stringify(capsules[index]));
+            
+            document.getElementById('capsuleTitle').value = currentCapsule.title;
+            document.getElementById('capsuleSubject').value = currentCapsule.subject;
+            document.getElementById('capsuleLevel').value = currentCapsule.level;
+            document.getElementById('notesContent').value = currentCapsule.notes;
+            
+            renderFlashcardsEditor();
+            renderQuizEditor();
+            
+            showView('author');
+        }
+
+        function saveCapsule() {
+            const title = document.getElementById('capsuleTitle').value.trim();
+            const subject = document.getElementById('capsuleSubject').value.trim();
+            const level = document.getElementById('capsuleLevel').value;
+            const notes = document.getElementById('notesContent').value.trim();
+
+            if (!title || !subject) {
+                alert('Please fill in all required fields (Title and Subject)');
+                return;
+            }
+
+            const capsule = {
+                title,
+                subject,
+                level,
+                notes,
+                flashcards: currentCapsule.flashcards || [],
+                quiz: currentCapsule.quiz || [],
+                flashcardProgress: currentCapsule.flashcardProgress || [],
+                quizScores: currentCapsule.quizScores || [],
+                lastUpdated: new Date().toISOString()
+            };
+
+            if (currentCapsuleId !== null) {
+                capsules[currentCapsuleId] = capsule;
+            } else {
+                capsules.push(capsule);
+            }
+
+            saveCapsulesToStorage();
+            showView('library');
+        }
+
+        function addFlashcard() {
+            if (!currentCapsule.flashcards) currentCapsule.flashcards = [];
+            currentCapsule.flashcards.push({ front: '', back: '' });
+            renderFlashcardsEditor();
+        }
+
+        function removeFlashcard(index) {
+            currentCapsule.flashcards.splice(index, 1);
+            renderFlashcardsEditor();
+        }
+
+        function renderFlashcardsEditor() {
+            const container = document.getElementById('flashcardsList');
+            
+            if (!currentCapsule.flashcards || currentCapsule.flashcards.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-4">No flashcards yet. Click "Add Flashcard" to create one.</p>';
+                return;
+            }
+
+            container.innerHTML = currentCapsule.flashcards.map((card, index) => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6>Flashcard ${index + 1}</h6>
+                            <button class="btn btn-outline-danger btn-sm" onclick="removeFlashcard(${index})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Front (Question)</label>
+                            <input type="text" class="form-control" value="${card.front}" 
+                                onchange="currentCapsule.flashcards[${index}].front = this.value">
+                        </div>
+                        <div>
+                            <label class="form-label">Back (Answer)</label>
+                            <textarea class="form-control" rows="2" 
+                                onchange="currentCapsule.flashcards[${index}].back = this.value">${card.back}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addQuizQuestion() {
+            if (!currentCapsule.quiz) currentCapsule.quiz = [];
+            currentCapsule.quiz.push({
+                question: '',
+                options: ['', '', '', ''],
+                correctAnswer: 0
+            });
+            renderQuizEditor();
+        }
+
+        function removeQuizQuestion(index) {
+            currentCapsule.quiz.splice(index, 1);
+            renderQuizEditor();
+        }
+
+        function renderQuizEditor() {
+            const container = document.getElementById('quizQuestionsList');
+            
+            if (!currentCapsule.quiz || currentCapsule.quiz.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-4">No quiz questions yet. Click "Add Question" to create one.</p>';
+                return;
+            }
+
+            container.innerHTML = currentCapsule.quiz.map((q, index) => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6>Question ${index + 1}</h6>
+                            <button class="btn btn-outline-danger btn-sm" onclick="removeQuizQuestion(${index})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Question</label>
+                            <input type="text" class="form-control" value="${q.question}" 
+                                onchange="currentCapsule.quiz[${index}].question = this.value">
+                        </div>
+                        ${q.options.map((opt, optIndex) => `
+                            <div class="mb-2">
+                                <label class="form-label">Option ${optIndex + 1}</label>
+                                <input type="text" class="form-control" value="${opt}" 
+                                    onchange="currentCapsule.quiz[${index}].options[${optIndex}] = this.value">
+                            </div>
+                        `).join('')}
+                        <div>
+                            <label class="form-label">Correct Answer</label>
+                            <select class="form-select" onchange="currentCapsule.quiz[${index}].correctAnswer = parseInt(this.value)">
+                                ${q.options.map((_, optIndex) => `
+                                    <option value="${optIndex}" ${q.correctAnswer === optIndex ? 'selected' : ''}>
+                                        Option ${optIndex + 1}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Learn Mode Functions
+        function learnCapsule(index) {
+            currentCapsuleId = index;
+            currentCapsule = capsules[index];
+            currentFlashcardIndex = 0;
+            
+            document.getElementById('learnTitle').innerHTML = `<i class="bi bi-book me-2"></i>${currentCapsule.title}`;
+            
+            // Render notes
+            document.getElementById('learnNotesContent').textContent = currentCapsule.notes || 'No notes available.';
+            
+            // Setup notes search
+            document.getElementById('notesSearch').oninput = function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const content = currentCapsule.notes || '';
+                const notesDiv = document.getElementById('learnNotesContent');
+                
+                if (searchTerm) {
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    notesDiv.innerHTML = content.replace(regex, '<mark style="background: var(--primary-purple); color: white; padding: 2px 4px; border-radius: 3px;">$1</mark>');
+                } else {
+                    notesDiv.textContent = content;
+                }
+            };
+            
+            // Initialize flashcard progress
+            if (!currentCapsule.flashcardProgress) {
+                currentCapsule.flashcardProgress = new Array(currentCapsule.flashcards.length).fill(false);
+            }
+            
+            renderFlashcard();
+            showView('learn');
+        }
+
+        function renderFlashcard() {
+            const container = document.getElementById('flashcardContainer');
+            
+            if (!currentCapsule.flashcards || currentCapsule.flashcards.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-5">No flashcards available.</p>';
+                return;
+            }
+
+            const card = currentCapsule.flashcards[currentFlashcardIndex];
+            const isMastered = currentCapsule.flashcardProgress[currentFlashcardIndex];
+            
+            container.innerHTML = `
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="text-center">
+                                <h4>${card.front}</h4>
+                                <p class="text-muted mt-3">Click to flip</p>
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="text-center">
+                                <h4>${card.back}</h4>
+                                <p class="mt-3" style="opacity: 0.8;">Click to flip back</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <span class="badge ${isMastered ? 'badge-purple' : 'bg-secondary'}">
+                        ${isMastered ? '<i class="bi bi-star-fill me-1"></i>Mastered' : 'Not Mastered'}
+                    </span>
+                    <p class="text-muted mt-2">Card ${currentFlashcardIndex + 1} of ${currentCapsule.flashcards.length}</p>
+                </div>
+            `;
+
+            updateFlashcardProgress();
+        }
+
+        function updateFlashcardProgress() {
+            const mastered = currentCapsule.flashcardProgress.filter(m => m).length;
+            const total = currentCapsule.flashcards.length;
+            const percentage = total > 0 ? (mastered / total * 100) : 0;
+
+            document.getElementById('flashcardProgress').textContent = `${mastered}/${total}`;
+            document.getElementById('flashcardProgressBar').style.width = `${percentage}%`;
+        }
+
+        function previousFlashcard() {
+            if (currentFlashcardIndex > 0) {
+                currentFlashcardIndex--;
+                renderFlashcard();
+            }
+        }
+
+        function nextFlashcard() {
+            if (currentFlashcardIndex < currentCapsule.flashcards.length - 1) {
+                currentFlashcardIndex++;
+                renderFlashcard();
+            }
+        }
+
+        function toggleFlashcardMastery() {
+            currentCapsule.flashcardProgress[currentFlashcardIndex] = 
+                !currentCapsule.flashcardProgress[currentFlashcardIndex];
+            
+            capsules[currentCapsuleId] = currentCapsule;
+            saveCapsulesToStorage();
+            renderFlashcard();
+        }
+
+        // Quiz Functions
+        function startQuiz() {
+            if (!currentCapsule.quiz || currentCapsule.quiz.length === 0) {
+                alert('No quiz questions available.');
+                return;
+            }
+
+            currentQuestionIndex = 0;
+            quizAnswers = [];
+            selectedAnswer = null;
+
+            document.getElementById('quizStart').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'none';
+            document.getElementById('quizActive').style.display = 'block';
+            document.getElementById('totalQuestions').textContent = currentCapsule.quiz.length;
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const question = currentCapsule.quiz[currentQuestionIndex];
+            
+            document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+            document.getElementById('quizQuestion').textContent = question.question;
+            document.getElementById('quizScore').textContent = quizAnswers.filter(a => a).length;
+            
+            const progress = ((currentQuestionIndex) / currentCapsule.quiz.length) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progress}%`;
+
+            const optionsHtml = question.options.map((option, index) => `
+                <div class="quiz-option" onclick="selectAnswer(${index})">
+                    <strong>${String.fromCharCode(65 + index)}.</strong> ${option}
+                </div>
+            `).join('');
+
+            document.getElementById('quizOptions').innerHTML = optionsHtml;
+            document.getElementById('submitAnswerBtn').style.display = 'inline-block';
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+            selectedAnswer = null;
+        }
+
+        function selectAnswer(index) {
+            document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) opt.classList.add('selected');
+            });
+            selectedAnswer = index;
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer === null) {
+                alert('Please select an answer.');
+                return;
+            }
+
+            const question = currentCapsule.quiz[currentQuestionIndex];
+            const isCorrect = selectedAnswer === question.correctAnswer;
+            quizAnswers.push(isCorrect);
+
+            document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+                opt.onclick = null;
+                if (i === question.correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (i === selectedAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            document.getElementById('submitAnswerBtn').style.display = 'none';
+            document.getElementById('quizScore').textContent = quizAnswers.filter(a => a).length;
+
+            if (currentQuestionIndex < currentCapsule.quiz.length - 1) {
+                document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+            } else {
+                setTimeout(showQuizResults, 1000);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            renderQuizQuestion();
+        }
+
+        function showQuizResults() {
+            const score = Math.round((quizAnswers.filter(a => a).length / quizAnswers.length) * 100);
+            
+            if (!currentCapsule.quizScores) currentCapsule.quizScores = [];
+            currentCapsule.quizScores.push(score);
+            capsules[currentCapsuleId] = currentCapsule;
+            saveCapsulesToStorage();
+
+            document.getElementById('quizActive').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+
+            let message = '';
+            if (score >= 90) message = '🎉 Outstanding! You\'ve mastered this material!';
+            else if (score >= 70) message = '👏 Great job! You have a solid understanding!';
+            else if (score >= 50) message = '👍 Good effort! Review the material and try again!';
+            else message = '💪 Keep studying! You\'ll get there!';
+
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        // Import/Export Functions
+        function exportCapsule(index) {
+            const capsule = capsules[index];
+            const dataStr = JSON.stringify(capsule, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${capsule.title.replace(/\s+/g, '-')}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportCurrentCapsule() {
+            exportCapsule(currentCapsuleId);
+        }
+
+        function importCapsule(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const capsule = JSON.parse(e.target.result);
+                    
+                    // Validate capsule structure
+                    if (!capsule.title || !capsule.subject) {
+                        alert('Invalid capsule file.');
+                        return;
+                    }
+
+                    capsules.push(capsule);
+                    saveCapsulesToStorage();
+                    renderLibrary();
+                    alert('Capsule imported successfully!');
+                } catch (error) {
+                    alert('Error importing capsule. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function deleteCapsule(index) {
+            if (confirm('Are you sure you want to delete this capsule?')) {
+                capsules.splice(index, 1);
+                saveCapsulesToStorage();
+                renderLibrary();
+            }
+        }
+
+        // Initialize on page load
+        window.onload = init;
+    </script>
+</body>
+</html>
